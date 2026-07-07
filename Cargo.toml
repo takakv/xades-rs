@@ -1,0 +1,23 @@
+[package]
+name = "xades"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+homepage = "https://github.com/takakv/xades-rs"
+repository = "https://github.com/takakv/xades-rs"
+keywords = ["xades", "asice", "eidas", "bdoc", "digidoc"]
+
+[dependencies]
+base64 = "0.22.1"
+bergshamra-c14n = "0.7.0"
+bergshamra-crypto = "0.7.0"
+bergshamra-keys = "0.7.0"
+bergshamra-xml = "0.7.0"
+chrono = "0.4.45"
+percent-encoding = "2.3.2"
+thiserror = "2.0.18"
+tsp-ltv = "0.3.1"
+x509-cert = "0.2.5"
+
+[dev-dependencies]
+asice = "0.1.0"

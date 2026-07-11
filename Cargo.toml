@@ -8,6 +8,10 @@ homepage = "https://github.com/takakv/rust-xades"
 repository = "https://github.com/takakv/rust-xades"
 keywords = ["xades", "asice", "eidas", "bdoc", "digidoc"]
 
+[features]
+default = ["network"]
+network = ["dep:tokio"]
+
 [dependencies]
 base64 = "0.22.1"
 bergshamra-c14n = "0.7.0"
@@ -17,6 +21,7 @@ bergshamra-xml = "0.7.0"
 chrono = "0.4.45"
 percent-encoding = "2.3.2"
 thiserror = "2.0.18"
+tokio = { version = "1", features = ["rt"], optional = true }
 tsp-ltv = "0.3.1"
 x509-cert = "0.2.5"
 log = "0.4.33"

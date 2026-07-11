@@ -68,6 +68,40 @@ impl CreatedSignature {
     pub fn into_xml(self) -> String {
         self.xml
     }
+
+    /// The canonicalized `ds:SignatureValue` element.
+    /// Sent to an RFC 3161 TSA to produce the signature timestamp.
+    pub fn timestamp_input(&self) -> Result<Vec<u8>> {
+        canonicalize_subtree(&self.xml, ns::DSIG, "SignatureValue", C14nMode::Inclusive11)
+    }
+
+    pub fn extend_to_t_with(self, timestamp_der: Vec<u8>) -> Result<CreatedSignature> {
+        self.extend_to_lt_with(timestamp_der, Vec::new(), Vec::new())
+    }
+
+    pub fn extend_to_lt_with(
+        mut self,
+        timestamp_der: Vec<u8>,
+        ocsp_values: Vec<Vec<u8>>,
+        cert_values: Vec<Vec<u8>>,
+    ) -> Result<CreatedSignature> {
+        if timestamp_der.is_empty() {
+            return Err(LibError::Timestamp("empty timestamp token".into()));
+        }
+
+        self.draft.unsigned = Some(super::template::UnsignedData {
+            timestamp_der,
+            timestamp_c14n_uri: ns::C14N11.into(),
+            cert_values,
+            ocsp_values,
+        });
+        let xml = build_signature_xml(&self.draft)?;
+
+        Ok(CreatedSignature {
+            draft: self.draft,
+            xml,
+        })
+    }
 }
 
 /// Create a B-level signature.

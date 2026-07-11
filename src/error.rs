@@ -14,6 +14,14 @@ pub enum LibError {
     #[error("certificate: {0}")]
     Certificate(String),
 
+    /// Timestamp request or verification failed.
+    #[error("timestamp: {0}")]
+    Timestamp(String),
+
+    /// OCSP request or verification failed.
+    #[error("ocsp: {0}")]
+    Ocsp(String),
+
     /// Cryptographic operation failed.
     #[error("crypto: {0}")]
     Crypto(String),
